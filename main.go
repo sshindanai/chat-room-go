@@ -10,7 +10,7 @@ var (
 func main() {
 	go h.run()
 	router = gin.New()
-	router.LoadHTMLFiles("index.html")
+	router.LoadHTMLFiles("template/index.html")
 
 	router.GET("/room/:roomId", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)

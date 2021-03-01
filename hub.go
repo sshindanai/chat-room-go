@@ -24,6 +24,7 @@ type message struct {
 	room string
 }
 
+// run the chatroom
 func (h *hub) run() {
 	for {
 		select {

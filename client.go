@@ -34,6 +34,7 @@ type connection struct {
 
 // upgrade connection to support Web Socket
 func serveWs(w http.ResponseWriter, r *http.Request, roomId string) {
+	// Upgrade HTTP to Web Socket
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -44,10 +45,9 @@ func serveWs(w http.ResponseWriter, r *http.Request, roomId string) {
 	h.register <- s
 	go s.writePump()
 	go s.readPump()
-
 }
 
-// Send message from socket to hub
+// Send message from socket to hub as a Consumer
 func (s subscription) readPump() {
 	c := s.conn
 	defer func() {
@@ -74,7 +74,7 @@ func (s subscription) readPump() {
 	}
 }
 
-// Send message from hub to socket
+// Send message from hub to socket as a Producer
 func (s *subscription) writePump() {
 	c := s.conn
 	ticker := time.NewTicker(pingPeriod)
